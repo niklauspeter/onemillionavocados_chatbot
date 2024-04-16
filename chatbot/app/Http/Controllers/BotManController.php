@@ -16,7 +16,7 @@ class BotManController extends Controller
    
         $botman->hears('{message}', function($botman, $message) {
    
-            if ($message == 'hi') {
+            if ($message == 'hi' || $message == 'Hi'|| $message == 'hello'|| $message == 'Hello' || $message == 'HELLO' || $message == 'HI') {
                 $this->askName($botman);
             }
             
@@ -34,11 +34,29 @@ class BotManController extends Controller
      */
     public function askName($botman)
     {
-        $botman->ask('Hello! What is your Name?', function(Answer $answer) {
+        $botman->ask('Hello! What is your Name?', function(Answer $answer, $conversation) {
    
             $name = $answer->getText();
    
             $this->say('Nice to meet you '.$name);
+
+            $conversation->ask('can you share your email', function(Answer $answer, $conversation){
+                $email = $answer->getText();
+                $this->say('Email:'.$email);
+            
+                $conversation->ask('confirm if the above email is correct, reply with yes or no', function(Answer $answer, $conversation){
+                    $confirmemail = $answer->getText();
+                    if ($answer == 'yes' || $answer == 'Yes' ) {
+                        $this->say('we have your details');
+                    }
+                    else{
+                        $conversation->ask('can you share your email', function(Answer $answer, $conversation){
+                            $email = $answer->getText();
+                            $this->say('Email:'.$email);
+                        });
+                    }
+                });
+            });
         });
     }
 }

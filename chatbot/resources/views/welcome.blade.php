@@ -13,7 +13,7 @@
     <script>
         var botmanWidget = {
             aboutText: 'Start the conversation with Hi',
-            introMessage: "WELCOME TO ALL ABOUT LARAVEL"
+            introMessage: "ASK US ABOUT AVOCADOS"
         };
     </script>
    
