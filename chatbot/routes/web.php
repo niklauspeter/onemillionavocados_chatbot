@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
+// use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\AvocadoController;
+// use App\Http\Controllers\BotManController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+// Route::match(['get', 'post'], '/botman', [AvocadoController::class, 'handle']);
+// Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
+// Route::match(['get', 'post'], '/botman', 'App\Http\Controllers\BotManController@handle');
+Route::match(['get', 'post'], '/botman', 'App\Http\Controllers\AvocadoController@handle');
 
-Route::match(['get', 'post'], '/botman', 'App\Http\Controllers\BotManController@handle');
 
