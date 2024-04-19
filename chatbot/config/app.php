@@ -159,6 +159,7 @@ return [
         /*
          * Package Service Providers...
          */
+        BotMan\BotMan\BotManServiceProvider::class,
 
         /*
          * Application Service Providers...

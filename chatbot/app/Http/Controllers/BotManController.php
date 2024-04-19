@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
    
 use BotMan\BotMan\BotMan;
@@ -16,47 +17,27 @@ class BotManController extends Controller
    
         $botman->hears('{message}', function($botman, $message) {
    
-            if ($message == 'hi' || $message == 'Hi'|| $message == 'hello'|| $message == 'Hello' || $message == 'HELLO' || $message == 'HI') {
-                $this->askName($botman);
+            // Define your list of questions and corresponding answers
+            $qa_pairs = [
+                'What is your name?' => 'My name is ChatBot.',
+                'How are you?' => 'I am a bot, so I don\'t have feelings, but thanks for asking!',
+                'What can you do?' => 'I can answer your questions and provide assistance.',
+                // Add more question-answer pairs as needed
+            ];
+   
+            // Check if the message matches any question in the list
+            foreach ($qa_pairs as $question => $answer) {
+                if (strcasecmp($message, $question) === 0) {
+                    $botman->reply($answer);
+                    return;
+                }
             }
             
-            else{
-                $botman->reply("Start a conversation by saying hi.");
-            }
+            // If no matching question found, provide a default response
+            $botman->reply("I'm sorry, I don't understand that question.");
    
         });
    
         $botman->listen();
-    }
-   
-    /**
-     * Place your BotMan logic here.
-     */
-    public function askName($botman)
-    {
-        $botman->ask('Hello! What is your Name?', function(Answer $answer, $conversation) {
-   
-            $name = $answer->getText();
-   
-            $this->say('Nice to meet you '.$name);
-
-            $conversation->ask('can you share your email', function(Answer $answer, $conversation){
-                $email = $answer->getText();
-                $this->say('Email:'.$email);
-            
-                $conversation->ask('confirm if the above email is correct, reply with yes or no', function(Answer $answer, $conversation){
-                    $confirmemail = $answer->getText();
-                    if ($answer == 'yes' || $answer == 'Yes' ) {
-                        $this->say('we have your details');
-                    }
-                    else{
-                        $conversation->ask('can you share your email', function(Answer $answer, $conversation){
-                            $email = $answer->getText();
-                            $this->say('Email:'.$email);
-                        });
-                    }
-                });
-            });
-        });
     }
 }
