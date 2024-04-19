@@ -15,15 +15,16 @@ class BotManController extends Controller
     {
         $botman = app('botman');
    
+        // Greet the user and instruct them to ask a question
+        $botman->hears('hi', function($botman) {
+            $botman->reply('Hi! I\'m your lovely avocado assistant. Please ask your question.');
+        });
+   
+        // Handle user questions
         $botman->hears('{message}', function($botman, $message) {
    
-            // Define your list of questions and corresponding answers
-            $qa_pairs = [
-                'What is your name?' => 'My name is ChatBot.',
-                'How are you?' => 'I am a bot, so I don\'t have feelings, but thanks for asking!',
-                'What can you do?' => 'I can answer your questions and provide assistance.',
-                // Add more question-answer pairs as needed
-            ];
+            // Fetch question-answer pairs from external file
+            $qa_pairs = include('qa_pairs.php');
    
             // Check if the message matches any question in the list
             foreach ($qa_pairs as $question => $answer) {
