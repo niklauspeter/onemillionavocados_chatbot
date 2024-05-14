@@ -17,7 +17,7 @@ class BotManController extends Controller
    
         // Greet the user and instruct them to ask a question
         $botman->hears('hi', function($botman) {
-            $botman->reply('Hi! I\'m your lovely avocado assistant. Please ask your question.');
+            $botman->reply('Hi! I\'ll be your guide in this avocado journey.');
         });
    
         // Handle user questions

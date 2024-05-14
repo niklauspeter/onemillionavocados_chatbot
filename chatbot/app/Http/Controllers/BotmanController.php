@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 use BotMan\BotMan\BotMan;
 use Illuminate\Http\Request;
 use BotMan\BotMan\Messages\Incoming\Answer;
-   
+
+dialogflow = DialogFlow::create('')->ListenForAction();
 class BotmanController extends Controller
 {
     /**

@@ -1,0 +1,4 @@
+{
+    "What is your name?": "I am ChatBot, nice to meet you!",
+    "How does Laravel handle routing?": "Laravel uses routes defined in the `routes/web.php` file for routing.",
+}
