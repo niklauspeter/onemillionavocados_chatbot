@@ -13,7 +13,7 @@
     <script>
         var botmanWidget = {
             aboutText: 'Say hi back',
-            introMessage: "Hi, i'm Afrocado"
+            introMessage: "Hi, i'm Silvano"
         };
     </script>
    <!-- Add this to your blade template -->

@@ -16,28 +16,87 @@ class BotMannController extends Controller
         $botman = app('botman');
    
         // Greet the user and instruct them to ask a question
-        // $botman->hears('hi', function($botman) {
-        //     $botman->reply('Hi! I\'ll be your guide in this avocado journey.');
-        // });
-   
+        $botman->hears('hi', function($botman) {
+            logger()->info('Received "hi" message');
+            // $botman->reply('Hi! I\'ll be your guide in this avocado journey.');
+            // $botman->reply('Ask me about avocados');
+            $this->spellOutResponse($botman, 'Hi! I\'ll be your guide in this avocado journey.');
+            $this->spellOutResponse($botman, 'Ask me about avocados');
+    
+        });
+        
         // Handle user questions
         $botman->hears('{message}', function($botman, $message) {
    
             // Process user input using Wit.ai
-            $intent = $this->getWitAiIntent($message);
-   
-            // Retrieve response based on user intent
-            $response = $this->getResponse($intent);
-   
-            // Reply to user
-            $botman->reply($response);
+            if (strcasecmp($message, 'hi') !== 0)
+            {
+                $intent = $this->getWitAiIntent($message);
+
+                // Retrieve response based on user intent
+                $responses = $this->getResponse($intent);
+
+                // Reply to user
+                // foreach ($responses as $response) {
+                //     $botman->reply($response);
+                // }
+                foreach ($responses as $response) {
+                    $this->spellOutResponse($botman, $response);
+                }
+                if (empty($responses)) {
+                    $this->spellOutResponse($botman, $intent);
+                }
+            // $botman->reply($response);
             
-            $botman->reply($intent);
-   
+            // $botman->reply($intent);
+        }
+            // $botman->reply('Hi! I\'ll be your guide in this avocado journey.');
+            // $botman->reply('Ask me about avocados');
         });
    
         $botman->listen();
     }
+    private function spellOutResponse($botman, $message)
+    {
+        $accumulatedResponse = '';
+        $length = strlen($message);
+        
+        // Loop through each character and accumulate the response
+        for ($i = 0; $i < $length; $i++) {
+            $accumulatedResponse .= $message[$i];
+            usleep(100000); // Delay to simulate typing effect (100000 microseconds = 0.1 seconds)
+        }
+
+        // Send the accumulated response as a single message
+        $botman->reply($accumulatedResponse);
+    }
+    // private function spellOutResponse($botman, $message, $index = 0)
+    // {
+    //     if ($index < strlen($message)) {
+    //         $botman->reply(substr($message, $index, 1));
+    //         sleep(1); // Adjust delay as needed
+    //         $this->spellOutResponse($botman, $message, $index + 1);
+    //     }
+    // }
+
+    // private function spellOutResponse($botman, $message)
+    // {
+    //     $this->spellOut($botman, $message, 0, '');
+    // }
+
+    // private function spellOut($botman, $message, $index, $accumulatedResponse)
+    // {
+    //     if ($index < strlen($message)) {
+    //         $accumulatedResponse .= $message[$index];
+    //         $index++;
+    //         // Delay 0.1 seconds between each character
+    //         usleep(010000); // 100000 microseconds = 0.1 seconds
+            
+    //         $this->spellOut($botman, $message, $index, $accumulatedResponse);
+    //     } else {
+    //         $botman->reply($accumulatedResponse);
+    //     }
+    // }
 
     private function getWitAiIntent($userInput)
     {
@@ -59,28 +118,25 @@ class BotMannController extends Controller
 
     private function getResponse($intent)
     {
-        // Load QA pairs from JSON file
-        // $qaPairs = json_decode(file_get_contents(storage_path('app/qapairs.json')), true);
-
-        // $qaPairs = include('qa_pairs.php');
-        // Find matching question in QA pairs
-        // foreach ($qaPairs as $qaPair) {
-        //     if (isset($qaPair['question']) && strtolower($qaPair['question']) === strtolower($intent)) {
-        //         return $qaPair['answer'];
-        //     }
-        // }
-
-         // Fetch question-answer pairs from external file
-         $qa_pairs = include('qa_pairs.php');
-   
-         // Check if the message matches any question in the list
-         foreach ($qa_pairs as $question => $answer) {
-             if (strcasecmp($intent, $question) === 0) {
-                 return $answer;
-             }
-         }
-
+        // Fetch question-answer pairs from external file
+        $qa_pairs = include('qa_pairs.php');
+        $responses = [];
+       
+        // Check if the intent matches any question in the list
+        foreach ($qa_pairs as $question => $answer) {
+            if (strcasecmp($intent, $question) === 0) {
+                array_push($responses, $answer);
+            }
+        }
+        logger()->info('Responses:', $responses);
+        
+        // If matches are found, return the responses
+        if (!empty($responses)) {
+            return $responses;
+        }
+        
         // If no direct match found, return a default response
-        return "I'm sorry, I don't understand.";
+        return ["I'm sorry, I don't understand."];
     }
+    
 }
