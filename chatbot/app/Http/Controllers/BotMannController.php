@@ -37,15 +37,15 @@ class BotMannController extends Controller
                 $responses = $this->getResponse($intent);
 
                 // Reply to user
-                // foreach ($responses as $response) {
-                //     $botman->reply($response);
-                // }
                 foreach ($responses as $response) {
-                    $this->spellOutResponse($botman, $response);
+                    $botman->reply($response);
                 }
-                if (empty($responses)) {
-                    $this->spellOutResponse($botman, $intent);
-                }
+                // foreach ($responses as $response) {
+                //     $this->spellOutResponse($botman, $response);
+                // }
+                // if (empty($responses)) {
+                //     $this->spellOutResponse($botman, $intent);
+                // }
             // $botman->reply($response);
             
             // $botman->reply($intent);
@@ -56,20 +56,20 @@ class BotMannController extends Controller
    
         $botman->listen();
     }
-    private function spellOutResponse($botman, $message)
-    {
-        $accumulatedResponse = '';
-        $length = strlen($message);
+    // private function spellOutResponse($botman, $message)
+    // {
+    //     $accumulatedResponse = '';
+    //     $length = strlen($message);
         
-        // Loop through each character and accumulate the response
-        for ($i = 0; $i < $length; $i++) {
-            $accumulatedResponse .= $message[$i];
-            usleep(100000); // Delay to simulate typing effect (100000 microseconds = 0.1 seconds)
-        }
+    //     // Loop through each character and accumulate the response
+    //     for ($i = 0; $i < $length; $i++) {
+    //         $accumulatedResponse .= $message[$i];
+    //         usleep(000000); // Delay to simulate typing effect (100000 microseconds = 0.1 seconds)
+    //     }
 
-        // Send the accumulated response as a single message
-        $botman->reply($accumulatedResponse);
-    }
+    //     // Send the accumulated response as a single message
+    //     $botman->reply($accumulatedResponse);
+    // }
     // private function spellOutResponse($botman, $message, $index = 0)
     // {
     //     if ($index < strlen($message)) {
