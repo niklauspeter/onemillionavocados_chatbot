@@ -18,10 +18,25 @@ class BotMannController extends Controller
         // Greet the user and instruct them to ask a question
         $botman->hears('hi', function($botman) {
             logger()->info('Received "hi" message');
-            // $botman->reply('Hi! I\'ll be your guide in this avocado journey.');
-            // $botman->reply('Ask me about avocados');
-            $this->spellOutResponse($botman, 'Hi! I\'ll be your guide in this avocado journey.');
-            $this->spellOutResponse($botman, 'Ask me about avocados');
+            $botman->reply('Hi! Again, My name is Silvano I\'ll be your guide in this avocado journey.');
+            $botman->reply('Ask me all about avocados');
+            $botman->reply('Some topics i han help answer include:
+            Propagation(grafting),
+            Transplanting,
+            Harvesting,
+            Fertilization,
+            Pests and Diseases,
+            Haas avocado Variety,
+            Avocado growth cycle,
+            All about Haas Avocados,
+            requirements for cultivating avocados,
+            environmental conditions for Haas avocados,
+            Farming Tools and pruning,
+            Role of Mulching and tools to use,
+            specialized irrigation tools and techniques,
+            And avocado companion plants');
+            // $this->spellOutResponse($botman, 'Hi! I\'ll be your guide in this avocado journey.');
+            // $this->spellOutResponse($botman, 'Ask me about avocados');
     
         });
         
@@ -136,7 +151,8 @@ class BotMannController extends Controller
         }
         
         // If no direct match found, return a default response
-        return ["I'm sorry, I don't understand."];
+        return ["I'm sorry, I don't understand.
+        Kindly rephrase your question"];
     }
     
 }
