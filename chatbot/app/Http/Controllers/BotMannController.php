@@ -16,7 +16,7 @@ class BotMannController extends Controller
         $botman = app('botman');
    
         // Greet the user and instruct them to ask a question
-        $botman->hears('hi', function($botman) {
+        $botman->hears('^(hi|hey|hello)', function($botman) {
             logger()->info('Received "hi" message');
             $botman->reply('Hi! Again, My name is Silvano I\'ll be your guide in this avocado journey.');
             $botman->reply('Ask me all about avocados');
@@ -44,7 +44,7 @@ class BotMannController extends Controller
         $botman->hears('{message}', function($botman, $message) {
    
             // Process user input using Wit.ai
-            if (strcasecmp($message, 'hi') !== 0)
+            if (!preg_match('/^(hi|hey|hello)$/i', $message))
             {
                 $intent = $this->getWitAiIntent($message);
 
