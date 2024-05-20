@@ -12,8 +12,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/assets/css/chat.min.css">
     <script>
         var botmanWidget = {
+    
             aboutText: 'Say hi back',
-            introMessage: "Hi, i'm Silvano , your avocado assistant"
+            introMessage: "Hi, i'm Silvano , your avocado assistant",
+            mainColor:'#228B22',
+            aboutText:'',
+            bubbleBackground:'#228B22',
+            headerTextColor: '#fff',
         };
     </script>
    <!-- Add this to your blade template -->

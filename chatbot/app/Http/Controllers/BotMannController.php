@@ -5,16 +5,34 @@ namespace App\Http\Controllers;
 use BotMan\BotMan\BotMan;
 use BotMan\BotMan\Messages\Incoming\Answer;
 use GuzzleHttp\Client;
+use BotMan\Drivers\Facebook\FacebookDriver;
+use BotMan\BotMan\Drivers\DriverManager;
+use BotMan\BotMan\BotManFactory;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BotMannController extends Controller
 {
     /**
      * Place your BotMan logic here.
      */
-    public function handle()
+    public function handle(Request $request)
     {
-        $botman = app('botman');
-   
+        // $botman = app('botman');
+        // Load the Facebook driver
+        DriverManager::loadDriver(FacebookDriver::class);
+
+        Log::info('Incoming request', ['request' => $request->all()]);
+        // Check for the Facebook webhook verification request
+        if ($request->isMethod('get') && $request->has('hub_mode') && $request->input('hub_mode') === 'subscribe') {
+            return response($request->input('hub_challenge'), 200)
+                ->header('Content-Type', 'text/plain');
+        }
+
+        // Create and return the BotMan instance
+        $config = config('botman.facebook'); // Load configuration from config/botman/facebook.php
+        $botman = BotManFactory::create($config);
+        
         // Greet the user and instruct them to ask a question
         $botman->hears('^(hi|hey|hello)', function($botman) {
             logger()->info('Received "hi" message');
@@ -39,6 +57,8 @@ class BotMannController extends Controller
             // $this->spellOutResponse($botman, 'Ask me about avocados');
     
         });
+
+        
         
         // Handle user questions
         $botman->hears('{message}', function($botman, $message) {

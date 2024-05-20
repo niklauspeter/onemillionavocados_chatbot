@@ -3,6 +3,7 @@
 // use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\AvocadoController;
 use App\Http\Controllers\BotMannController;
+use BotMan\BotMan\BotMan;
 // use App\Http\Controllers\BotmanController;
 /*
 |--------------------------------------------------------------------------
