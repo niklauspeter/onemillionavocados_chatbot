@@ -12,7 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //     '/botman',  // Add your BotMan route here
-        // //
+        '/botman',
     ];
 }
